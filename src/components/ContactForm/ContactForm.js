@@ -1,4 +1,5 @@
 import { useState } from 'react';
+import PropTypes from 'prop-types';
 import styles from './ContactForm.module.css';
 
 export default function ContactForm({ addNewContact }) {
@@ -60,3 +61,11 @@ export default function ContactForm({ addNewContact }) {
     </form>
   );
 }
+
+ContactForm.propTypes = {
+  name: PropTypes.string,
+  number: PropTypes.number,
+
+  handleChange: PropTypes.func,
+  handleSubmit: PropTypes.func,
+};
