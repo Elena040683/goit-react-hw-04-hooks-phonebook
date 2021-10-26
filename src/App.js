@@ -1,4 +1,4 @@
-import { useEffect, useState } from 'react';
+import { useState } from 'react';
 import './App.css';
 import { v4 as uuidv4 } from 'uuid';
 
@@ -7,19 +7,9 @@ import ContactForm from './components/ContactForm/ContactForm';
 import ContactList from './components/ContactList/ContactList';
 import Filter from './components/Filter/Filter';
 import defaultContacts from './defaultContacts.json';
+import useLS from './hooks/useLS';
 
 export default function App() {
-  const useLS = value => {
-    const [contacts, setContacts] = useState(
-      () => JSON.parse(localStorage.getItem('contacts')) ?? value
-    );
-
-    useEffect(() => {
-      localStorage.setItem(contacts, JSON.stringify('contacts'));
-    }, [contacts]);
-    return [contacts, setContacts];
-  };
-
   const [contacts, setContacts] = useLS(defaultContacts);
   const [filter, setFilter] = useState('');
 
@@ -52,6 +42,18 @@ export default function App() {
     );
   };
 
+  // const visibleContacts = contacts.filter(contact =>
+  //   contact.name.toLowerCase().includes(filter.toLocaleLowerCase())
+  // );
+
+  // const getVisibleContacts = () => {
+  //   return contacts.filter(contact =>
+  //     contact.name.toLowerCase().includes(filter.toLowerCase())
+  //   );
+  // };
+
+  // const visibleContacts = getVisibleContacts();
+
   return (
     <Container>
       <h1>Phonebook</h1>
@@ -59,7 +61,7 @@ export default function App() {
 
       <h2>Contacts</h2>
       <Filter value={filter} onChange={changeFilter} />
-      <ContactList contacts={visibleContacts} deleteContact={deleteContact} />
+      <ContactList contacts={visibleContacts()} deleteContact={deleteContact} />
     </Container>
   );
 }
