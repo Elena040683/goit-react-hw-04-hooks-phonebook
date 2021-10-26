@@ -19,40 +19,27 @@ export default function App() {
       name,
       number,
     };
-
-    contacts.find(({ name }) => name === contact.name)
-      ? alert(`${contact.name} already exists`)
-      : setContacts(prev => {
-          return {
-            contacts: [...prev, contact],
-          };
-        });
+    contacts.some(e => e.name === name)
+      ? alert(`${name} already exists`)
+      : setContacts([...contacts, contact]);
   };
 
+  //     : setContacts(prev => [...prev, contact]);
+
   const changeFilter = e => {
-    setFilter(e.currentTarget.value);
+    setFilter(e.target.value);
   };
 
   const deleteContact = id =>
     setContacts(contacts.filter(contact => contact.id !== id));
 
-  const visibleContacts = () => {
+  const filterByName = () => {
     return contacts.filter(contact =>
       contact.name.toLowerCase().includes(filter.toLowerCase())
     );
   };
 
-  // const visibleContacts = contacts.filter(contact =>
-  //   contact.name.toLowerCase().includes(filter.toLocaleLowerCase())
-  // );
-
-  // const getVisibleContacts = () => {
-  //   return contacts.filter(contact =>
-  //     contact.name.toLowerCase().includes(filter.toLowerCase())
-  //   );
-  // };
-
-  // const visibleContacts = getVisibleContacts();
+  const visibleContacts = filterByName();
 
   return (
     <Container>
@@ -61,7 +48,7 @@ export default function App() {
 
       <h2>Contacts</h2>
       <Filter value={filter} onChange={changeFilter} />
-      <ContactList contacts={visibleContacts()} deleteContact={deleteContact} />
+      <ContactList contacts={visibleContacts} deleteContact={deleteContact} />
     </Container>
   );
 }

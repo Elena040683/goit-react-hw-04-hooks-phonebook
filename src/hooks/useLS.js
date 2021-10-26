@@ -1,8 +1,9 @@
 import { useState, useEffect } from 'react';
+// import defaultContacts from '../defaultContacts.json'
 
-const useLS = value => {
+const useLS = defaultContacts => {
   const [contacts, setContacts] = useState(
-    () => JSON.parse(localStorage.getItem('contacts')) ?? value
+    () => JSON.parse(localStorage.getItem('contacts')) ?? defaultContacts
   );
 
   useEffect(() => {

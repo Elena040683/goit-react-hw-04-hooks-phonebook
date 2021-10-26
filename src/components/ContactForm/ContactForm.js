@@ -21,7 +21,7 @@ export default function ContactForm({ addNewContact }) {
 
   const handleSubmit = e => {
     e.preventDefault();
-    addNewContact(name, number);
+    addNewContact({ name, number });
     setName('');
     setNumber('');
   };
